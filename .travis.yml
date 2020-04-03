@@ -1,0 +1,26 @@
+
+sudo: required
+language: java
+
+jdk:
+  - openjdk8
+
+script:
+  - mvn clean compile assembly:single
+
+before_deploy:
+    - mkdir MiningBuild
+    - find . -name '*.jar' -exec cp {} ./MiningBuild \;
+    - cd /home/travis/build/semantic-conflicts/netty/MiningBuild
+    - tar -zcvf result.tar.gz *
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: result.tar.gz
+  name: fetchjar-2fc18a00f6ac61a365b73dd498dd2e38f1efa823
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
+  on:
+    all_branches: true 
+            
