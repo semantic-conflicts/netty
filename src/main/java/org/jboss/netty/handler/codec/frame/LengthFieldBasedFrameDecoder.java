@@ -76,7 +76,8 @@ public class LengthFieldBasedFrameDecoder extends FrameDecoder {
     this.initialBytesToStrip=initialBytesToStrip;
     this.lengthFieldIncludedInFrameLength=lengthFieldIncludedInFrameLength;
   }
-  public Object decode(  ChannelHandlerContext ctx,  Channel channel,  ChannelBuffer buffer) throws Exception {
+  @Override
+  protected Object decode(  ChannelHandlerContext ctx,  Channel channel,  ChannelBuffer buffer) throws Exception {
     if (discardingTooLongFrame) {
       long bytesToDiscard=this.bytesToDiscard;
       int localBytesToDiscard=(int)Math.min(bytesToDiscard,buffer.readableBytes());
@@ -157,7 +158,8 @@ fail(ctx,tooLongFrameLength);
 /** 
  * Extract the sub-region of the specified buffer. This method is called by {@link #decode(ChannelHandlerContext,Channel,ChannelBuffer)} for eachframe.  The default implementation returns a copy of the sub-region. For example, you could override this method to use an alternative {@link ChannelBufferFactory}. <p> If you are sure that the frame and its content are not accessed after the current  {@link #decode(ChannelHandlerContext,Channel,ChannelBuffer)}call returns, you can even avoid memory copy by returning the sliced sub-region (i.e. <tt>return buffer.slice(index, length)</tt>). It's often useful when you convert the extracted frame into an object. Refer to the source code of  {@link ObjectDecoder} to see how this methodis overridden to avoid memory copy.
  */
-public ChannelBuffer extractFrame(ChannelBuffer buffer,int index,int length){
+@Override
+protected ChannelBuffer extractFrame(ChannelBuffer buffer,int index,int length){
 ChannelBuffer frame=buffer.factory().getBuffer(length);
 frame.writeBytes(buffer,index,length);
 return frame;
