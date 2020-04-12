@@ -82,7 +82,6 @@ public class ObjectDecoder extends LengthFieldBasedFrameDecoder {
         this.classLoader = classLoader;
     }
 
-    @Override
     protected Object decode(
             ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
 
@@ -95,8 +94,7 @@ public class ObjectDecoder extends LengthFieldBasedFrameDecoder {
                 new ChannelBufferInputStream(frame), classLoader).readObject();
     }
 
-    @Override
-    protected ChannelBuffer extractFrame(ChannelBuffer buffer, int index, int length) {
+   protected ChannelBuffer extractFrame(ChannelBuffer buffer, int index, int length) {
         return buffer.slice(index, length);
     }
 }
