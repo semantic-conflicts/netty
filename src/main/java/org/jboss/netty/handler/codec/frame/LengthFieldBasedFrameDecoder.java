@@ -76,7 +76,7 @@ public class LengthFieldBasedFrameDecoder extends FrameDecoder {
     this.initialBytesToStrip=initialBytesToStrip;
     this.lengthFieldIncludedInFrameLength=lengthFieldIncludedInFrameLength;
   }
-  @Override public Object decode(  ChannelHandlerContext ctx,  Channel channel,  ChannelBuffer buffer) throws Exception {
+  public Object decode(  ChannelHandlerContext ctx,  Channel channel,  ChannelBuffer buffer) throws Exception {
     if (discardingTooLongFrame) {
       long bytesToDiscard=this.bytesToDiscard;
       int localBytesToDiscard=(int)Math.min(bytesToDiscard,buffer.readableBytes());
